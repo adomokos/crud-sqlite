@@ -1,41 +1,53 @@
+-- This file has been generated from package.yaml by hpack version 0.17.0.
+--
+-- see: https://github.com/sol/hpack
+
 name:                crud-sqlite
 version:             0.1.0.0
--- synopsis:
--- description:
-homepage:            https://github.com/githubuser/crud-sqlite#readme
-license:             BSD3
+homepage:            https://github.com/adomokos/crud-sqlite#readme
 license-file:        LICENSE
-author:              Author name here
-maintainer:          example@example.com
-copyright:           2017 Author name here
-category:            Web
+author:              Attila Domokos <adomokos@gmail.com>
 build-type:          Simple
-extra-source-files:  README.md
-cabal-version:       >=1.10
+cabal-version:       >= 1.10
 
 library
-  hs-source-dirs:      src
-  exposed-modules:     Lib
-  build-depends:       base >= 4.7 && < 5
-  default-language:    Haskell2010
+  hs-source-dirs:
+      src/
+  ghc-options: -Wall
+  exposed-modules:
+      CrudSqlite
+  other-modules:
+      Paths_crud_sqlite
+  build-depends:
+      base >= 4.7 && < 5
+    , sqlite-simple
+    , containers
+  default-language: Haskell2010
 
 executable crud-sqlite-exe
-  hs-source-dirs:      app
-  main-is:             Main.hs
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
-  build-depends:       base
-                     , crud-sqlite
-  default-language:    Haskell2010
+  main-is: Main.hs
+  hs-source-dirs:
+      app/
+  ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >= 4.7 && < 5
+    , sqlite-simple
+    , containers
+    , crud-sqlite
+  default-language: Haskell2010
 
 test-suite crud-sqlite-test
-  type:                exitcode-stdio-1.0
-  hs-source-dirs:      test
-  main-is:             Spec.hs
-  build-depends:       base
-                     , crud-sqlite
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
-  default-language:    Haskell2010
-
-source-repository head
-  type:     git
-  location: https://github.com/githubuser/crud-sqlite
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  hs-source-dirs:
+      test/
+  ghc-options: -Wall
+  build-depends:
+      base >= 4.7 && < 5
+    , sqlite-simple
+    , containers
+    , crud-sqlite
+    , hspec == 2.*
+  other-modules:
+      CrudSqliteSpec
+  default-language: Haskell2010

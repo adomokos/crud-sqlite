@@ -1,0 +1,34 @@
+name: crud-sqlite
+version: 0.1.0.0
+author: Attila Domokos <adomokos@gmail.com>
+homepage: https://github.com/adomokos/crud-sqlite#readme
+
+ghc-options: -Wall
+
+dependencies:
+  - base >= 4.7 && < 5
+  - sqlite-simple
+  - containers
+
+library:
+  source-dirs: src/
+  exposed-modules:
+    - CrudSqlite
+
+executables:
+  crud-sqlite-exe:
+    source-dirs: app/
+    main: Main.hs
+    dependencies:
+      crud-sqlite
+    ghc-options: -threaded -rtsopts -with-rtsopts=-N
+
+tests:
+  crud-sqlite-test:
+    source-dirs: test/
+    main: Spec.hs
+    dependencies:
+      - crud-sqlite
+      - hspec == 2.*
+    other-modules:
+      CrudSqliteSpec

@@ -1,6 +1,6 @@
 module Main where
 
-import Lib
+import CrudSqlite
 
 main :: IO ()
 main = someFunc

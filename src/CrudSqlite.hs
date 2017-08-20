@@ -1,4 +1,4 @@
-module Lib
+module CrudSqlite
     ( someFunc
     ) where
 
