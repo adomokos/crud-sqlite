@@ -10,6 +10,9 @@ build-db: ## Builds the DB
 run: ## Run the project
 	time stack build && stack exec crud-sqlite-exe
 
+spec: ## Run specs
+	time stack test
+
 .PHONY: help
 
 help:
