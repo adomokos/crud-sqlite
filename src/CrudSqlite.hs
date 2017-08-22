@@ -2,6 +2,9 @@
 
 module CrudSqlite
     ( someFunc
+    , Band(..)
+    , findBand
+    , findByName
     ) where
 
 import Database.SQLite.Simple
@@ -22,10 +25,14 @@ instance FromRow Band where
 
 someFunc :: IO ()
 someFunc = do
-    band <- findBand 1
+    band <- findByName "The Beatles"
     case band of
       Nothing -> putStrLn "The band with the id of 1 was not found"
       Just band -> putStrLn $ "The band's name is " ++ (name band)
+    {- band <- findBand 1 -}
+    {- case band of -}
+      {- Nothing -> putStrLn "The band with the id of 1 was not found" -}
+      {- Just band -> putStrLn $ "The band's name is " ++ (name band) -}
 
 findBand :: Int -> IO (Maybe Band)
 findBand id = do
@@ -38,7 +45,17 @@ findBand id = do
        then return $ Just (head result)
        else return Nothing
 
-{- runQuery :: Query -> a -> IO [Band] -}
+findByName :: String -> IO (Maybe Band)
+findByName name = do
+    let sql = fromString("SELECT id, name, \
+        \formed_year, \
+        \genre \
+        \FROM bands WHERE name = ?") :: Query
+    result <- runQuery sql name
+    if length result == 1
+       then return $ Just (head result)
+       else return Nothing
+
 runQuery :: TF.ToField a =>
                 Query -> a -> IO [Band]
 runQuery sql value =
