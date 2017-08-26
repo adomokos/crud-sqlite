@@ -10,9 +10,15 @@ spec :: Spec
 spec = do
     describe "finds records in the DB" $ do
         it "finds a band by ID" $ do
-            Just band <- findBand 1
+            Just band <- findById 1
             name band `shouldBe` "The Beatles"
         it "finds a band by name" $ do
             Just band <- findByName "The Beatles"
             formedYear band `shouldBe` 1960
             genre band `shouldBe` Just "Rock"
+        it "updates a band's formedYear" $ do
+            pending
+            {- Just band <- findBand 1 -}
+            {- setL formedYear 1964 band -}
+            {- name band `shouldBe` "The Beatles" -}
+

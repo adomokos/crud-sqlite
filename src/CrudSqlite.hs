@@ -3,7 +3,7 @@
 module CrudSqlite
     ( someFunc
     , Band(..)
-    , findBand
+    , findById
     , findByName
     ) where
 
@@ -23,6 +23,9 @@ instance FromRow Band where
                        field <*>
                        field
 
+dbPath :: String
+dbPath = "db/crud-db.sqlt"
+
 someFunc :: IO ()
 someFunc = do
     band <- findByName "The Beatles"
@@ -34,8 +37,8 @@ someFunc = do
       {- Nothing -> putStrLn "The band with the id of 1 was not found" -}
       {- Just band -> putStrLn $ "The band's name is " ++ (name band) -}
 
-findBand :: Int -> IO (Maybe Band)
-findBand id = do
+findById :: Int -> IO (Maybe Band)
+findById id = do
     let sql = fromString("SELECT id, name, \
         \formed_year, \
         \genre \
@@ -65,7 +68,7 @@ runQuery sql value =
 
 withDBConn :: (Connection -> IO b) -> IO b
 withDBConn task = do
-    conn <- open "db/crud-db.sqlt"
+    conn <- open dbPath
     result <- (task conn)
     close conn
     return result
