@@ -44,9 +44,7 @@ findById id = do
         \genre \
         \FROM bands WHERE id = ?") :: Query
     result <- runQuery sql id
-    if length result == 1
-       then return $ Just (head result)
-       else return Nothing
+    return $ extractResult result
 
 findByName :: String -> IO (Maybe Band)
 findByName name = do
@@ -55,14 +53,24 @@ findByName name = do
         \genre \
         \FROM bands WHERE name = ?") :: Query
     result <- runQuery sql name
+    return $ extractResult result
+
+extractResult :: [Band] -> Maybe Band
+extractResult result =
     if length result == 1
-       then return $ Just (head result)
-       else return Nothing
+       then Just (head result)
+       else Nothing
 
 runQuery :: TF.ToField a =>
                 Query -> a -> IO [Band]
-runQuery sql value =
-    withDBConn (\conn -> do
+runQuery sql value = do
+    conn <- open dbPath
+    result <- query conn (sql :: Query) (Only value) :: IO [Band]
+    close conn
+    return result
+
+{-
+    withDBConn (\coj
         query conn (sql :: Query) (Only value) :: IO [Band]
     )
 
@@ -72,3 +80,4 @@ withDBConn task = do
     result <- (task conn)
     close conn
     return result
+-}

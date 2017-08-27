@@ -12,6 +12,9 @@ spec = do
         it "finds a band by ID" $ do
             Just band <- findById 1
             name band `shouldBe` "The Beatles"
+        it "will not find a band with incorrect ID" $ do
+            band <- findById 15
+            band `shouldBe` Nothing
         it "finds a band by name" $ do
             Just band <- findByName "The Beatles"
             formedYear band `shouldBe` 1960
