@@ -20,7 +20,8 @@ spec = do
             formedYear band `shouldBe` 1960
             genre band `shouldBe` Just "Rock"
         it "updates a band's formedYear" $ do
-            pending
+            result <- updateBand 1 "The Beatles"
+            result `shouldBe` 1
             {- Just band <- findBand 1 -}
             {- setL formedYear 1964 band -}
             {- name band `shouldBe` "The Beatles" -}

@@ -5,6 +5,7 @@ module CrudSqlite
     , Band(..)
     , findById
     , findByName
+    , updateBand
     ) where
 
 import Database.SQLite.Simple
@@ -54,6 +55,14 @@ findByName name = do
         \FROM bands WHERE name = ?") :: Query
     result <- runQuery sql name
     return $ extractResult result
+
+updateBand :: Int -> String -> IO Int
+updateBand id value = do
+    conn <- open dbPath
+    execute conn "UPDATE bands SET name = ? WHERE id = ?" (value :: String, id :: Int )
+    numChanges <- changes conn
+    close conn
+    return numChanges
 
 extractResult :: [Band] -> Maybe Band
 extractResult result =
