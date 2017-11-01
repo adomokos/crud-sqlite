@@ -3,6 +3,7 @@
 module CrudSqlite
     ( someFunc
     , Band(..)
+    , dbPath
     , findById
     , findByName
     , updateBand
@@ -56,12 +57,10 @@ findByName name = do
     result <- runQuery sql name
     return $ extractResult result
 
-updateBand :: Int -> String -> IO Int
-updateBand id value = do
-    conn <- open dbPath
+updateBand :: Int -> String -> Connection -> IO Int
+updateBand id value conn = do
     execute conn "UPDATE bands SET name = ? WHERE id = ?" (value :: String, id :: Int )
     numChanges <- changes conn
-    close conn
     return numChanges
 
 extractResult :: [Band] -> Maybe Band
